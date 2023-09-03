@@ -1,6 +1,5 @@
 import 'dart:convert';
-import 'package:rest_api/model/user.dart';
-import 'package:rest_api/model/user_name.dart';
+import 'package:rest_api/model/user/user.dart';
 import 'package:http/http.dart' as http;
 
 class UserApi {
@@ -12,20 +11,8 @@ class UserApi {
     final jsonBody = jsonDecode(body);
     final results = jsonBody['results'] as List<dynamic>;
     final users = results.map((user) {
-      final name = UserName(
-        title: user["name"]["title"],
-        first: user["name"]["first"],
-        last: user["name"]["last"],
-      );
-      return User(
-          cell: user["cell"],
-          email: user["email"],
-          gender: user["gender"],
-          phone: user["phone"],
-          nat: user["nat"],
-          name: name);
+      return User.fromMap(user);
     }).toList();
-
     return users;
   }
 }
